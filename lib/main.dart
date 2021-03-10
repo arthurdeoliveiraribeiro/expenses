@@ -11,22 +11,20 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-
   final _transactions = [
-      Transaction (
+    Transaction(
         id: 't1',
         title: 'Novo Tênis de corrida',
         value: 310.76,
-        date: DateTime.now()//pegando a data atual
+        date: DateTime.now() //pegando a data atual
 
-      ),
-      Transaction(
-        id: 't2', 
-        title:'Nova camisa de time' , 
+        ),
+    Transaction(
+        id: 't2',
+        title: 'Nova camisa de time',
         value: 150.00,
-        date: DateTime.now()
-        )
-      //Falando que aqui é uma lista de transações
+        date: DateTime.now())
+    //Falando que aqui é uma lista de transações
   ];
 
   @override
@@ -36,17 +34,38 @@ class MyHomePage extends StatelessWidget {
         title: Text('Despesas Pessoais'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            child: Card(
-              child: Text('Grafico'),
-              //CARD
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              child: Card(
+                child: Text('Grafico'),
+                //CARD
+              ),
             ),
-          ),
-          Card(child: Text('Lista de Transações'))
-        ]),
-      );
+            Column(
+                children: _transactions.map((tr) {
+              return Card(
+                child: Row(children: <Widget>[
+                  Container(
+                      child: Text(tr.value
+                              .toString() //Passando no container o valor e transformando em string
+                          )
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text(tr.title),
+                      Text(tr.date.toString())
+                    ],
+
+                  )
+                ]),
+                //Passando um card com a lista de titulos das transações
+                //Mapeamento entre as transações que estão no backlog em elementos visuais na tela
+              );
+            }).toList() //Convertendo para uma lista,
+                )
+          ]),
+    );
   }
 }
