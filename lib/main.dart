@@ -27,6 +27,7 @@ class MyHomePage extends StatelessWidget {
     //Falando que aqui é uma lista de transações
   ];
 
+  //Isso tudo é flutter
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,9 +60,14 @@ class MyHomePage extends StatelessWidget {
                         )
                       ),
                       padding: EdgeInsets.all(10),
-                      child: Text(tr.value
-                              .toString() //Passando no container o valor e transformando em string
-                          )
+                      child: Text(
+                        tr.value.toString(),//Passando no container o valor e transformando em string
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.purple
+                        )
+                      )
                   ),
                   Column(
                     children: <Widget>[
