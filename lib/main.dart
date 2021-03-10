@@ -1,5 +1,6 @@
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -46,6 +47,7 @@ class MyHomePage extends StatelessWidget {
             ),
             Column(
                 children: _transactions.map((tr) {
+                //Não importa quantas vezes eu coloque um elemento na lista sempre vai ter mais, pois usei uma função map para aparecer a lista e dar estilo tela, muito massa 
               return Card(
                 child: Row(children: <Widget>[
                   Container(
@@ -61,7 +63,7 @@ class MyHomePage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        tr.value.toString(),//Passando no container o valor e transformando em string
+                        'R\$ ${tr.value.toStringAsFixed(2)}',//Passando no container o valor e transformando em string
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -80,7 +82,7 @@ class MyHomePage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        tr.date.toString(),
+                        DateFormat('d MMM y').format(tr.date),
                         style: TextStyle(
                           color: Colors.grey[500]
                         ),
@@ -99,3 +101,16 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+/*
+Container recebe apenas uma lista de Widget como filho 
+Alinhamento flexível e opções de estilo 
+Largura fexível(largura do filho, largura disponiveel)
+
+Column / Row aceita uma lista de widgets como filho
+Alinhamento, mas sem opção de estilo
+Sempre ocupa toda altura(Column)
+Sempre ocupa toda largura(Row)
+
+
+*/
