@@ -8,6 +8,19 @@ class TransactionForm extends StatelessWidget {
 
   TransactionForm(this.onSubmit);
 
+  _submitForm(){
+      final title = titleController.text;
+      final value = double.tryParse(valueController.text) ?? 0.0;
+      
+      if(title.isEmpty || value<0){
+        return;
+      }
+      //Criando um método para validar na hora de apertar o botão
+      onSubmit(title,value);
+      //Passei meu submit para quando eu der onPressed, eu passo o valor e o titulo
+  
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -25,6 +38,8 @@ class TransactionForm extends StatelessWidget {
                   ),
                   TextField(
                     controller: valueController,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    //onSubmitted: (value) => _submitForm(),//Passando a função para quando eu terminar de digitar o valor 
                     decoration: InputDecoration(
                       labelText: 'Valor (R\$)',
                       //O que vai aparecer de informação para o usuário digitar 
@@ -37,11 +52,7 @@ class TransactionForm extends StatelessWidget {
                     color: Colors.blue[50],
                     textColor: Colors.purple[300],
                     onPressed: (){
-                      final title = titleController.text;
-                      final value = double.tryParse(valueController.text) ?? 0.0;
-
-                      onSubmit(title,value); 
-                      //Passei meu submit para quando eu der onPressed, eu passo o valor e o titulo
+                        _submitForm();
                         
                     }                   
                   )
