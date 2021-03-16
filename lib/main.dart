@@ -60,8 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
       _transactions.add(newTransaction);
       //Passando o que eu vou adicionar para a minha lista 
     });
+    Navigator.of(context).pop();//pop serve para fechar a tela 
+    //Assim que eu apertar em salvar 
+
+    //Para fechar o modal
   }
   _openTransactionFormModal(BuildContext context){
+    //Abrindo o modal
     showModalBottomSheet(
       context: context,
       builder: (_){
@@ -80,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //Adicionando botão de adicionar
           IconButton(
             icon: Icon(Icons.add), 
-            onPressed: () =>_openTransactionFormModal(context),
+            onPressed: () =>_openTransactionFormModal(context)//Abrindo o modal,
           )
         ],
       ),
