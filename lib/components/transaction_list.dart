@@ -11,7 +11,28 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child: ListView.builder(
+      child: transactions.isEmpty?Column(
+          //Caso a minha lista esteja vazia 
+          children: <Widget>[
+            Text(
+              'nenhuma transação cadastrada',   
+              style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    )
+            ),
+            Container(
+              
+              height:250,
+              width: 310,
+              child:Image.asset(
+                'assets/imagens/waiting.png',
+                 fit: BoxFit.cover,
+              ),
+            ),
+          ],
+      ) 
+      :ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (ctx, index) {
           final tr = transactions[index];
