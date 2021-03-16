@@ -15,8 +15,16 @@ class ExpensesApp extends StatelessWidget {
       //Passsando o tema para aplicação
       theme: ThemeData(
         primarySwatch: Colors.purple,
-        accentColor: Colors.amber[300]
-
+        accentColor: Colors.amber[300],
+        fontFamily: 'Quicksand',
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+            title: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18
+            )
+          ) 
+        ),
       ),
     );
   }
