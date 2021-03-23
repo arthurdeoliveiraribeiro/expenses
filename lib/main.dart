@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'components./transaction_list.dart';
 import 'models/transaction.dart';
+import 'components/chart.dart';
 
 main() => runApp(ExpensesApp());
 
@@ -63,7 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   List<Transaction> get _recentTransactions{
-    return _transactions.whereType()
+    return _transactions.where((tr){
+      //lista somente para aparecer na tela
+        return tr.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+        //Para filtrar as transações para mostrar somente as 7 
+    }).toList();
   }
   _addTrasanction(String title, double value){
     //Classe onde eu estou adicionando uma nova transação 
@@ -112,12 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Container(
-                child: Card(
-                  child: Text('Grafico'),
-                  //CARD
-                ),
-              ),
+              Chart(_recentTransactions),
               TransactionList(_transactions),   
               
             
