@@ -44,7 +44,8 @@ class Chart extends StatelessWidget {
             return ChartBar(
               label: tr['day'],
               value: tr['value'],
-              percentage: 0,
+              percentage: 0.3,
+              //quantos porcento da barra vai ficar ocupada
             );
             //Mostrando na tela os dias com a soma
       }).toList(),
