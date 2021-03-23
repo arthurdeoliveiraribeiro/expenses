@@ -38,18 +38,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction>_transactions = [
-    /*Transaction(
+  Transaction(
         id: 't1',
         title: 'Novo Tênis de corrida',
         value: 310.76,
-        date: DateTime.now() //pegando a data atual
+        date: DateTime.now().subtract(Duration(days: 3)) //pegando a data atual
 
         ),
         Transaction(
         id: 't1',
         title: 'Novo Tênis de corrida',
         value: 310.76,
-        date: DateTime.now() //pegando a data atual
+        date: DateTime.now().subtract(Duration(days: 5)) //pegando a data atual
 
         ),
         
@@ -58,9 +58,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: 'Nova camisa de time23',
         value: 150.00,
         date: DateTime.now())
-      */
+    
     //Falando que aqui é uma lista de transações
   ];
+
+  List<Transaction> get _recentTransactions{
+    return _transactions.whereType()
+  }
   _addTrasanction(String title, double value){
     //Classe onde eu estou adicionando uma nova transação 
     
