@@ -18,7 +18,7 @@ class _TransactionFormState extends State<TransactionForm> {
       final title = titleController.text;
       final value = double.tryParse(valueController.text) ?? 0.0;
       
-      if(title.isEmpty || value<0){
+      if(title.isEmpty || value<0 || value > 2000){
         return;
       }
       //Criando um método para validar na hora de apertar o botão
