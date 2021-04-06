@@ -54,16 +54,34 @@ class _TransactionFormState extends State<TransactionForm> {
                     ),
                     //Onde o usuário pode digitar 
                   ),
-                  FlatButton(
-                  
-                    child: Text('Nova transação'),
-                    color: Colors.blue[50],
-                    textColor: Colors.purple[300],
-                    onPressed: (){
-                        _submitForm();
-                        
-                    }                   
-                  )
+                  Container(
+                    height: 70,
+                    child: Row(
+                      children: <Widget>
+                      [
+                        Text('Nenhuma data selecionada!'),
+                        FlatButton(
+                          textColor: Theme.of(context).primaryColor,
+                          child: Text('Selecionar Data', style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          )),
+                          onPressed: (){ },
+                          )
+                      ],
+                    
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text('Nova transação'),
+                        color: Theme.of(context).primaryColor,         
+                        textColor: Colors.white,
+                        onPressed : _submitForm,               
+                      )
+                    ]
+                  )   
                 ],
               ),
             ),
