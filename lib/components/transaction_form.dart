@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 class TransactionForm extends StatefulWidget {
 
-  final void Function(String, double) onSubmit;//Quando clicar no botão
+  final void Function(String, double, DateTime) onSubmit;//Quando clicar no botão
 
   TransactionForm(this.onSubmit);
 
@@ -10,21 +11,39 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final titleController = TextEditingController();
-
-  final valueController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _valueController = TextEditingController();
+  DateTime _selectedDate  = DateTime.now();
 
   _submitForm(){
-      final title = titleController.text;
-      final value = double.tryParse(valueController.text) ?? 0.0;
+      final title =  _titleController.text;
+      final value = double.tryParse(_valueController.text) ?? 0.0;
       
       if(title.isEmpty || value<0 || value > 2000){
         return;
       }
       //Criando um método para validar na hora de apertar o botão
-      widget.onSubmit(title,value);
+      widget.onSubmit(title,value,_selectedDate);
       //Passei meu submit para quando eu der onPressed, eu passo o valor e o titulo
   
+  }
+  _showDatePicker(){
+    showDatePicker(
+      context:context , 
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+      //Aparecer a data 
+    ).then((pickedDate){
+      if(pickedDate ==null){
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+        //Mostra que um dado foi altera e isso deve ocorrer na tela
+      });
+      //Vai receber o que o usuário marcou de data 
+    });
   }
 
   @override
@@ -36,7 +55,7 @@ class _TransactionFormState extends State<TransactionForm> {
               child: Column(
                 children: <Widget>[
                   TextField(
-                    controller: titleController,//pegar o valor que foi passado lá ,
+                    controller: _titleController,//pegar o valor que foi passado lá ,
                     //onSubmitted: (titulo) => _submitForm(),
                     decoration: InputDecoration(
                       labelText: 'Título',
@@ -45,7 +64,7 @@ class _TransactionFormState extends State<TransactionForm> {
                     ),
                   ),
                   TextField(
-                    controller: valueController,
+                    controller: _valueController,
                     keyboardType: TextInputType.numberWithOptions(decimal: true),
                     //onSubmitted: (value) => _submitForm(),//Passando a função para quando eu terminar de digitar o valor 
                     decoration: InputDecoration(
@@ -59,13 +78,14 @@ class _TransactionFormState extends State<TransactionForm> {
                     child: Row(
                       children: <Widget>
                       [
-                        Text('Nenhuma data selecionada!'),
+                        Text( _selectedDate == null? 'Nenhuma data selecionada!': DateFormat('dd/MM/y').format(_selectedDate) ),
                         FlatButton(
                           textColor: Theme.of(context).primaryColor,
                           child: Text('Selecionar Data', style: TextStyle(
                             fontWeight: FontWeight.bold
-                          )),
-                          onPressed: (){ },
+                          )
+                          ),
+                          onPressed: _showDatePicker,
                           )
                       ],
                     
