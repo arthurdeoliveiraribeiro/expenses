@@ -59,8 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
       value: value,
       date: date
       //Passando os atributos
-    );
-    setState(() {
+    );    setState(() {
       _transactions.add(newTransaction);
       //Passando o que eu vou adicionar para a minha lista 
     });
@@ -78,6 +77,15 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
     );
+  }
+
+  _removeTransaction(String id){
+    setState(() {
+      _transactions.removeWhere((tr) {
+        return tr.id == id;
+        //Removendo de acordo com Id
+      });
+    });
   }
 
   @override
@@ -98,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Chart(_recentTransactions),
-              TransactionList(_transactions),   
+              TransactionList(_transactions, _removeTransaction),   
               
             
           ]
