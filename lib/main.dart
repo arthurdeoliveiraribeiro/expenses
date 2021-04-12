@@ -1,30 +1,42 @@
 import 'package:expenses/components/transaction_form.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:math';
-import 'components./transaction_list.dart';
-import 'models/transaction.dart';
+import 'components/transaction_form.dart';
+import 'components/transaction_list.dart';
 import 'components/chart.dart';
+import 'models/transaction.dart';
 
 main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp
-    (
+    return MaterialApp(
       home: MyHomePage(),
-      //Passsando o tema para aplicação
       theme: ThemeData(
         primarySwatch: Colors.purple,
-        accentColor: Colors.amber[300],
+        accentColor: Colors.amber,
         fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                fontFamily: 'Opensans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              button: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
-            title: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 18
-            )
-          ) 
+                headline6: TextStyle(
+                  fontFamily: 'Opensans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
         ),
       ),
     );
@@ -32,104 +44,77 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction>_transactions = [
-    //Falando que aqui é uma lista de transações
+  final List<Transaction> _transactions = [];
 
-  ];
-
-  List<Transaction> get _recentTransactions{
-    return _transactions.where((tr){
-      //lista somente para aparecer na tela
-        return tr.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
-        //Para filtrar as transações para mostrar somente as 7 
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        Duration(days: 7),
+      ));
     }).toList();
   }
-  _addTrasanction(String title, double value, DateTime date){
-    //Classe onde eu estou adicionando uma nova transação 
-    
+
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: date
-      //Passando os atributos
-    );    setState(() {
-      _transactions.add(newTransaction);
-      //Passando o que eu vou adicionar para a minha lista 
-    });
-    Navigator.of(context).pop();//pop serve para fechar a tela 
-    //Assim que eu apertar em salvar 
+      date: date,
+    );
 
-    //Para fechar o modal
+    setState(() {
+      _transactions.add(newTransaction);
+    });
+
+    Navigator.of(context).pop();
   }
-  _openTransactionFormModal(BuildContext context){
-    //Abrindo o modal
+
+  _removeTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
+  _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (_){
-        return TransactionForm(_addTrasanction);
-      }
-
+      builder: (_) {
+        return TransactionForm(_addTransaction);
+      },
     );
-  }
-
-  _removeTransaction(String id){
-    setState(() {
-      _transactions.removeWhere((tr) {
-        return tr.id == id;
-        //Removendo de acordo com Id
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Despesas Pessoais'),
+        title: Text('Depesas Pessoais'),
         actions: <Widget>[
-          //Adicionando botão de adicionar
           IconButton(
-            icon: Icon(Icons.add), 
-            onPressed: () =>_openTransactionFormModal(context)//Abrindo o modal,
+            icon: Icon(Icons.add),
+            onPressed: () => _openTransactionFormModal(context),
           )
         ],
       ),
       body: SingleChildScrollView(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Chart(_recentTransactions),
-              TransactionList(_transactions, _removeTransaction),   
-              
-            
-          ]
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Chart(_recentTransactions),
+            TransactionList(_transactions, _removeTransaction),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: ()=>_openTransactionFormModal(context),
+        onPressed: () => _openTransactionFormModal(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-
-/*
-Container recebe apenas uma lista de Widget como filho 
-Alinhamento flexível e opções de estilo 
-Largura fexível(largura do filho, largura disponiveel)
-
-Column / Row aceita uma lista de widgets como filho
-Alinhamento, mas sem opção de estilo
-Sempre ocupa toda altura(Column)
-Sempre ocupa toda largura(Row)
-
-
-*/
