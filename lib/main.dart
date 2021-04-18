@@ -106,10 +106,20 @@ class _MyHomePageState extends State<MyHomePage> {
           
         ),
         actions: <Widget>[
+
+          IconButton(
+            icon: Icon(_showChart? Icons.list: Icons.show_chart),
+            onPressed: (){
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+            ),
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => _openTransactionFormModal(context),
-          )
+            onPressed: () =>_openTransactionFormModal(context),
+            ),
+
         ],
       );
 
@@ -122,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            /*
             if(isLandscape)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            */
             _showChart?//Se o showChart for verdadeiro ou falso
             Container(
               height: availablelHeight * 0.25,
