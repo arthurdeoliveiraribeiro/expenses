@@ -1,5 +1,6 @@
 import 'package:expenses/components/transaction_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:math';
 import 'components/transaction_form.dart';
@@ -12,6 +13,12 @@ main() => runApp(ExpensesApp());
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp
+    ]
+    );
+     
     return MaterialApp(
       home: MyHomePage(),
       theme: ThemeData(
@@ -50,6 +57,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -113,10 +121,26 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Exibir gráfico'),
+                Switch(
+                  value: _showChart, 
+                  onChanged: (value){
+                    setState(() {
+                      _showChart = value;
+                    });
+                  }
+                ),
+              ],
+            ),
+            _showChart?//Se o showChart for verdadeiro ou falso
             Container(
               height: availablelHeight * 0.25,
               child: Chart(_recentTransactions)
-            ),
+            ):
+            //Ou exibo o de cima ou o de baixo
             Container(
               height: availablelHeight * 0.75,
               child: TransactionList(_transactions, _removeTransaction)
