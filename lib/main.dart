@@ -132,13 +132,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+          
             /*
-            if(isLandscape)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Exibir gráfico'),
-                Switch(
+                Switch.adaptive(
                   value: _showChart, 
                   onChanged: (value){
                     setState(() {
@@ -149,9 +149,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             */
+            //Para adaptar a plataforma
+          
             _showChart?//Se o showChart for verdadeiro ou falso
             Container(
-              height: availablelHeight * 0.25,
+              height: availablelHeight * ( 0.25),
               child: Chart(_recentTransactions)
             ):
             //Ou exibo o de cima ou o de baixo
