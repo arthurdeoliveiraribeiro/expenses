@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     final appBar = AppBar(
         title: Text('Depesas Pessoais',
@@ -121,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            if(isLandscape)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
