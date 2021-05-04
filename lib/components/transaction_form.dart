@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'adaptative_button.dart';
 import 'adaptative_text_field.dart';
+import 'adaptative_date_picker.dart';
 class TransactionForm extends StatefulWidget {
 
   final void Function(String, double, DateTime) onSubmit;//Quando clicar no botão
@@ -29,25 +30,7 @@ class _TransactionFormState extends State<TransactionForm> {
       //Passei meu submit para quando eu der onPressed, eu passo o valor e o titulo
   
   }
-  _showDatePicker(){
-    showDatePicker(
-      context:context , 
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2021),
-      lastDate: DateTime.now(),
-      //Aparecer a data 
-    ).then((pickedDate){
-      if(pickedDate ==null){
-        return;
-      }
-      setState(() {
-        _selectedDate = pickedDate;
-        //Mostra que um dado foi altera e isso deve ocorrer na tela
-      });
-      //Vai receber o que o usuário marcou de data 
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -71,24 +54,15 @@ class _TransactionFormState extends State<TransactionForm> {
                   //O que vai aparecer de informação para o usuário digitar 
                 //Onde o usuário pode digitar 
               ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: <Widget>
-                  [
-                    Text( _selectedDate == null? 'Nenhuma data selecionada!': DateFormat('dd/MM/y').format(_selectedDate) ),
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text('Selecionar Data', style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      )
-                      ),
-                      onPressed: _showDatePicker,
-                      )
-                  ],
-                
-                ),
-              ),
+             AdaptatibeDatePicker(
+               selectedDate: _selectedDate,
+               onDateChanged: (newDate){
+                 setState(() {
+                   _selectedDate = newDate;
+                 });
+               } 
+
+             ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
